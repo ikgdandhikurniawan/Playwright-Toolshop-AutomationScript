@@ -1,9 +1,9 @@
 class NavBar {
     constructor(page) {
         this.page = page;
-        this.navMenu = page.locator('[data-test="nav-menu"]');
-        this.navSignOut = page.locator('[data-test="nav-sign-out"]');
-        this.navSignIn = page.locator('[data-test="nav-sign-in"]');
+        this.navMenu = page.getByTestId('nav-menu');
+        this.navSignOut = page.getByTestId('nav-sign-out');
+        this.navSignIn = page.getByTestId('nav-sign-in');
     }
 
     async signOut() {
