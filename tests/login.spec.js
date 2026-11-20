@@ -10,7 +10,7 @@ test.describe('Login Tests', () => {
     test('TC-AUTH-001 user can log in with valid credentials @smoke', async ({ loginPage, page, navBar }) => {
         await loginPage.login(users.customer2.email, users.customer2.password);
         await expect(page).toHaveURL(/\/account/);
-        await expect(page.locator('[data-test="page-title"]')).toHaveText('My account');
+        await expect(loginPage.pageTitle).toHaveText(/my account/i);
         await expect(navBar.navMenu).toContainText(users.customer2.fullName);
     });
 

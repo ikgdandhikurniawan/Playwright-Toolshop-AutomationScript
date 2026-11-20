@@ -1,12 +1,13 @@
 class LoginPage {
     constructor(page) {
         this.page = page;
-        this.emailInput = page.locator('[data-test="email"]');
-        this.passwordInput = page.locator('[data-test="password"]');
-        this.loginButton = page.locator('[data-test="login-submit"]');
-        this.emailError = page.locator('[data-test="email-error"]');
-        this.passwordError = page.locator('[data-test="password-error"]');
-        this.loginError = page.locator('[data-test="login-error"]');
+        this.pageTitle = page.getByTestId('page-title');
+        this.emailInput = page.getByTestId('email');
+        this.passwordInput = page.getByTestId('password');
+        this.loginButton = page.getByTestId('login-submit');
+        this.emailError = page.getByTestId('email-error');
+        this.passwordError = page.getByTestId('password-error');
+        this.loginError = page.getByTestId('login-error');
     }
 
     async goto() {
