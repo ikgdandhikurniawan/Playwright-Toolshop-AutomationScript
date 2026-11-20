@@ -18,8 +18,7 @@ class RegisterPage {
     }
 
     async goto() {
-        await this.page.goto('/auth/login');
-        await this.registerLink.click();
+        await this.page.goto('/auth/register');
     }
 
     async register(user) {

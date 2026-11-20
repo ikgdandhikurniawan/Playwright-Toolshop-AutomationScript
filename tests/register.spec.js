@@ -1,5 +1,5 @@
 const { test, expect } = require('../fixtures/test-fixtures');
-const { users } = require('../utils/test-data');
+const { users, invalidEmails, invalidPasswords } = require('../utils/test-data');
 
 test.describe('Register Tests', () => {
 
@@ -54,11 +54,33 @@ test.describe('Register Tests', () => {
         await expect(registerPage.page.getByText('Please enter a valid date in YYYY-MM-DD format.')).toBeVisible();
         await expect(page).toHaveURL(/\/auth\/register/);
     });
-    
+
     test('TC-REG-005 phone number format is invalid @regression', async ({ registerPage, page, newUser }) => {
         const invalidPhoneUser = { ...newUser, phoneNumber: 'abcvdf' }; // Invalid format
         await registerPage.register(invalidPhoneUser);
         await expect(registerPage.page.getByText('Only numbers are allowed.')).toBeVisible();
         await expect(page).toHaveURL(/\/auth\/register/);
     });
+
+    // TC-REG-006 Test case for invalid email format
+    for (const emailTest of invalidEmails) {
+        test(`TC-REG-006 email format is rejected: ${emailTest.name} @regression`, async ({ registerPage, page, newUser }) => {
+            await registerPage.register({ ...newUser, email: emailTest.value });
+            await expect(registerPage.page.getByText('Email format is invalid')).toBeVisible();
+            await expect(page).toHaveURL(/\/auth\/register/);
+        });
+    }
+
+    //TC-REG-007 Test case for invalid password format
+    for (const passwordTest of invalidPasswords) {
+        test(`TC-REG-007 password format is rejected: ${passwordTest.name} @regression`, async ({ registerPage, page, newUser }) => {
+            await registerPage.register({ ...newUser, password: passwordTest.value });
+
+            for (const message of passwordTest.messages) {
+            await expect.soft(registerPage.page.getByText(message), `${passwordTest.name}: "${message}"`).toBeVisible();
+            }
+            
+            await expect(page).toHaveURL(/\/auth\/register/);
+        });
+    }
 });
