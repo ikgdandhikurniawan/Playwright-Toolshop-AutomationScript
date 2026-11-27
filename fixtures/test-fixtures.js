@@ -4,6 +4,7 @@ const { NavBar } = require('../pages/NavBar');
 const { RegisterPage } = require('../pages/RegisterPage');
 const { generateRegistrationData } = require('../utils/data-generator');
 const { CatalogPage } = require('../pages/CatalogPage');
+const { ProductDetailPage } = require('../pages/ProductDetailPage');
 
 const test = base.test.extend({
     loginPage: async ({ page }, use) => {
@@ -24,6 +25,10 @@ const test = base.test.extend({
     },
     newUser: async ({}, use) => {
         await use(generateRegistrationData());
+    },
+    productDetailPage: async ({ page }, use) => {
+        const productDetailPage = new ProductDetailPage(page);
+        await use(productDetailPage);
     }
 });
 module.exports = { test, expect: base.expect };

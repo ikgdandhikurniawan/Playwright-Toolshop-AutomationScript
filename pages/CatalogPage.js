@@ -9,6 +9,7 @@ class CatalogPage {
         this.searchButton = page.getByTestId('search-submit');
         this.searchCaption = page.getByTestId('search-caption');
         this.searchResultsCount = page.getByTestId('search-result-count');
+        this.noResultsMessage = page.getByTestId('no-results');
     }
 
     async goto() {
@@ -64,6 +65,25 @@ class CatalogPage {
         await this.searchInput.fill(keyword);
         await this.searchButton.click();
         await responsePromise;
+    }
+
+    getCategoryCheckbox(name) {
+        // exact: true prevents "Saw" from also matching "Hand Saw" (strict mode violation)
+        return this.page.getByRole('checkbox', { name, exact: true });
+    }
+
+    async filterByCategory(name) {
+        // Register the wait BEFORE clicking, so a fast response is not missed.
+        // The initial list is already loaded when this is called, so the next
+        // QUERY /products response belongs to this filter action.
+        const responsePromise = this.page.waitForResponse((response) =>
+            response.url().includes('/products') &&
+            response.request().method() === 'QUERY' &&
+            response.status() === 200
+        );
+
+        await this.getCategoryCheckbox(name).check();
+        return responsePromise;
     }
 }
 module.exports = { CatalogPage };
