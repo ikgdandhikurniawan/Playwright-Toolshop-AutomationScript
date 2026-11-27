@@ -32,4 +32,11 @@ const invalidPasswords = [
     { name: 'missing special character',        value: 'Short1234', messages: ['Password can not include invalid characters.'] },
 ];
 
-module.exports = { users, invalidEmails, invalidPasswords };
+const sampledCategories = ['Pliers', 'Drill', 'Fasteners'];
+
+const sampleProductCards = [
+    { name: 'first product',    index: 0},
+    { name: 'a later product',  index: 4},
+];
+
+module.exports = { users, invalidEmails, invalidPasswords, sampledCategories, sampleProductCards };
